@@ -79,7 +79,7 @@ class MyCollate:
         self.pad_idx = pad_idx
     
     def __call__(self, batch):
-        text = [item[0].unsqueez(0) for item in batch]
+        text = [item[0].unsqueeze(0) for item in batch]
         padded_text = pad_sequence(text, batch_first=False, padding_value=self.pad_idx)
 
         labels = [item[1] for item in batch]

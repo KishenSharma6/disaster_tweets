@@ -1,17 +1,23 @@
-from turtle import forward
 import torch
-import torch .nn as nn
+import torch.nn as nn
 
-class Model(nn.Module):
-    def __init__(self) -> None:
+#Set seed
+torch.manual_seed(6)
+
+class RNN(nn.Module):
+    def __init__(self, input_size, hidden_size, output_size) -> None:
         super().__init__()
-        #define layers 
-        self,layer1 = nn.Linear(128, 32)
-        self.layer2 = nn.Linear(32, 64)
-        self.layer3= nn.Linear(64, 1)
+
+        self.rnn = torch.nn.RNN(input_size, 
+                                hidden_size, 
+                                nonlinearity = 'relu',
+                                batch_first = True, 
+                                )
+        self.linear = torch.nn.Linear(hidden_size, 
+                                      output_size)
     
-    def forward(self, features): #also inherited from nn.Module
-        x = self.layer1(features)
-        x = self.layer2(x)
-        x = self.layer3(x)
+    def forward(self, x):
+        h = self.rnn(x)[0]
+        x = self.linear(h) 
         return x
+
